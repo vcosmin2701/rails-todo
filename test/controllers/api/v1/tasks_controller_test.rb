@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Api::V1::TasksCotrollerTest < ActionDispatch::IntegrationTest
+class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
   test "should get index" do
     get api_v1_tasks_url
     assert_response :success
@@ -22,5 +22,15 @@ class Api::V1::TasksCotrollerTest < ActionDispatch::IntegrationTest
 
     assert task.key?("title")
     assert task.key?("completed")
+  end
+
+  test "show returns only one task" do
+    get api_v1_task_url(tasks(:one))
+    assert_response :success
+
+    json_response = JSON.parse(response.body)
+
+    assert_instance_of Hash, json_response
+    assert_equal tasks(:one).id, json_response["id"]
   end
 end
