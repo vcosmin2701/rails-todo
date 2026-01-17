@@ -33,4 +33,12 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_instance_of Hash, json_response
     assert_equal tasks(:one).id, json_response["id"]
   end
+
+  test "delete modifies the size of the items" do
+    assert_difference "Task.count", -1 do
+      delete api_v1_task_url(tasks(:one))
+    end
+
+    assert_response :no_content
+  end
 end
