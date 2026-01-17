@@ -41,4 +41,12 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :no_content
   end
+
+  test "create adds a new task" do
+    assert_difference "Task.count", 1 do
+      post api_v1_tasks_url, params: { task: { title: "New task " } }
+    end
+
+    assert_response :created
+  end
 end
