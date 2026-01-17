@@ -49,4 +49,15 @@ class Api::V1::TasksControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :created
   end
+
+  test "update modifies the task" do
+    task = tasks(:one)
+
+    patch api_v1_task_url(task), params: { task: { title: "Updated title" } }
+
+    assert_response :success
+
+    task.reload
+    assert_equal "Updated title", task.title
+  end
 end
